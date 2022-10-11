@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n=prices.size();
+        if(n==0 || k==0)
+            return 0;
+        vector<int> buy(k,0),sell(k,0);
+        
+        for(int i=0;i<k;i++){
+            buy[i]=INT_MIN;
+            sell[i]=0;
+        }
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<k;j++){
+                buy[j] = max(buy[j],j==0?0-prices[i]:sell[j-1]-prices[i]);
+                sell[j] = max(sell[j],buy[j]+prices[i]);
+            }
+        }
+        return sell[k-1];
+    }
+};
